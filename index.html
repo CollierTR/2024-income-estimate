@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/0fc68b5e67.js" crossorigin="anonymous"></script>
+    <title>Bonnie Pay</title>
+</head>
+    <body>
+
+        <div class="calc">
+
+            <div class="overlay" id='overlay'>
+                <div class="overlay-top-half">
+                    <span>
+                        <p>Estimated Income</p>
+                        <p id="result">test</p>
+                    </span>
+                    <div id="close-btn">close</div>
+                </div>
+
+                <div class="overlay-bottom-half">
+
+                          <p class="left">Base pay from total sales (12.04%):</p>
+                          <p class='right' id="salary-display"></p>
+                          
+                              <p class="left">Sales Increase Incentive:</p>
+                              <p class='right' id="above-target">$0</p>
+
+                              <p class="left">Years of Service:</p>
+                              <p class='right' id="years-of-service-display-el"></p>
+                        
+                          <p class="left">Sales Rep Referal ($1,000 each):</p>
+                          <p class='right' id="sales-Reps-referd-display"></p>
+                        
+                            <p class="left">Weekly Walmart Growth Bonus ($500 each):</p>
+                            <p class='right' id="walmart-growth-bonuses-display"></p>
+                        
+                </div>
+            </div>
+
+            <img src="img/bonnie-logo.png" alt="Bonnie Plants Logo">
+            <br>
+
+            <span>
+            <label for="target-El">Last year's sales</label>
+            <input type="number" id="target-El" name="target-El" placeholder="$700,000" required pattern="^\$\d{1,3}(,\d{3})*" min="0">
+            </span>
+
+            <span>
+            <label for="std">Sales to Date</label>
+            <input type="number" id="std" name="std" placeholder="$718,000" value="" required pattern="^\$\d{1,3}(,\d{3})*" min="0">
+            </span>
+
+
+            <span>
+            <label for="years-of-service">Years of service</label>
+                <input type="number" id="years-of-service" 
+                name="years-of-service" 
+                placeholder="0" 
+                pattern="^\$\d{1,3}(,\d{3})*" 
+                value="0" min="0">
+            </span>
+
+            <span>
+            <label for="years-of-service">Walmart growth bonuses</label>
+                    <input type="number" id="walmart-growth-bonuses" name="walmart-growth-bonuses" placeholder="0" 
+                    pattern="^\$\d{1,3}(,\d{3})*"
+                    value="0" min="0">
+            </span>
+
+            <span>
+            <label for="years-of-service">Sales Reps referd</label>
+                <input type="number" id="sales-Reps-referd" name="sales-Reps-referd" placeholder="0" value="0" 
+                min="0" 
+                pattern="^\$\d{1,3}(,\d{3})*">
+            </span>
+
+
+            <button id="btn">Estimate Income</button>
+        </div>
+        <script src="pay.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,140 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #045515;
+    display: grid;
+    place-items: center;
+    width: 100vw;
+    height: 100vh;
+    font-weight: bold;
+}
+
+.calc {
+    position: relative;
+    width: 100vw;
+    max-width: 600px;
+    height: 100vh;
+    max-height: 800px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+img {
+    margin: 0;
+    width: 40%;
+}
+
+input {
+    display: block;
+    font-size: large;
+    margin: 10px auto;
+    text-align: center;
+}
+
+#walmart-growth-bonuses, #years-of-service, #sales-Reps-referd {
+    width: 30%;
+}
+
+select {
+    font-size: large;
+    margin: 5px;
+}
+
+button {
+    width: 50%;
+    height: auto;
+    font-size: x-large;
+    padding: .5em 1em;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.overlay {
+    display: none;
+}
+
+.overlay-open {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    
+.overlay-top-half {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    display: grid;
+    place-items: center;
+    top: 0;
+} 
+
+.overlay-top-half p {
+    font-size: 1.7rem;
+    text-align: center;
+}
+
+#result {
+    font-size: 2.6rem;
+    margin-top: 2rem;
+    color: green;
+    margin: 2px;
+} 
+#close-btn {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    font-size: 1.3rem;
+    text-decoration: underline;
+    color: red;
+    cursor: pointer;
+}
+
+.overlay-bottom-half {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    align-items: start;
+
+}
+
+.overlay-bottom-half p {
+    margin: 1rem;
+}
+
+
+.right {
+    text-align: right;
+    display: block;
+    color: green;
+}
+
+.left {
+    text-align: left;
+    display:inline-block;
+
+}
+
+@media only screen and (min-width: 600px) {
+
+    body {
+        background-color: rgb(4, 85, 21);
+    }
+
+    img {
+        width: 40%;
+    }
+}
