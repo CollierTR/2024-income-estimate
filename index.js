@@ -1,6 +1,5 @@
 /*
     ----------------------------------------------------------------------------   2024 pay plan   ---------------------
-
     Base Salary = 12.04% of auctual sales
     
     Years of service
@@ -38,13 +37,10 @@
     
     Helper Labor Offset 
     $2.50/hr
-
 */
 
 alert(`DISCLAIMER!
-
-This web app is not maintained by Bonnie Plants, LLC. And any inaccuracies found are not the responsibility of the company.
-
+This web app is not maintained by Bonnie Plants, LLC. And any inaccuracies found are not the responseabbility of the company.
 Contact tristan.collier@bonnieplants.com to report any issues.`)
 
 // Take control of html elements
@@ -78,24 +74,23 @@ function reloadPage() {
 function calculateEarnings () {
 
     modalEl.classList.toggle("overlay-open");
-    
+
     // grab input values
     const lastYearsSales = targetEl.valueAsNumber
     const totalSales = stdEl.valueAsNumber
     const yearsOfService = yearsOfServiceEl.valueAsNumber
     const totalOfWalmartBonusesEarned = walmartGrowthNumberEl.valueAsNumber
     const salesRepsReffered = salesRepsRefferedEl.valueAsNumber
-    
+
     const salesIncrease = ((totalSales - lastYearsSales) / lastYearsSales) * 100
-    
+
     console.log(`Last year's sales were ${lastYearsSales}.
     This year's sales were ${totalSales}.
     The sales increase was ${salesIncrease}% over last year's sales.
     `)
 
     // Calculate base pay
-    baseRate = .1204
-    basePay = baseRate * totalSales
+    basePay = (12.04 / 100) * totalSales
     console.log(`Base pay is ${basePay}`)
 
     // Dispay base pay result in html
@@ -104,46 +99,39 @@ function calculateEarnings () {
     // -------------------------------------  Error check
     console.log('Calculate base pay passed the check\n  ')
 
-    // Dictionary of Years-of-Service Incentives
-    const serviceIncentives = {
-	    0: 0,
-	    5: 0.0025,
-	    10: .006,
-	    20: .011,
-	    30: .015
-    }
+    // years of service bonus
+    if (yearsOfService >= 30) {
+        console.log(yearsOfService)
+        basePay += (1.5 / 100) * totalSales
+        console.log(`Pay total is now ${basePay}`)
+        const yosValue = (1.5 / 100) * totalSales
+        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
 
-    // Converts years of service to nearest incentive tier
-    function getServiceTier(yearsOfService) { 
-    	if (yearsOfService < 30) {
-    		if (yearsOfService < 20) {
-    			if (yearsOfService < 10) {
-    				if (yearsOfService < 5) {
-    					return 0 
-    					}
-    				return 5 
-    				}
-    			return 10
-    			}
-    		return 20 
-    		}
-    	return 30 
-    	}
+    } else if (yearsOfService >= 20) {
+        console.log(yearsOfService)
+        basePay += (1.1 / 100) * totalSales
+        console.log(`Pay total is now ${basePay}`)
+        const yosValue = (1.1 / 100) * totalSales
+        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
 
-    const yosPercent = serviceIncentives.getServiceTier(yearsOfService)
-    console.log(yearsOfService)
+    } else if (yearsOfService >= 10) {
+        console.log(yearsOfService)
+        basePay += (0.6 / 100) * totalSales
+        console.log(`Pay total is now ${basePay}`)
+        const yosValue = (0.6 / 100) * totalSales
+        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
 
-    // Calculating Incentive for Those with 5+ YOS
-    if (yosPercent == 0) {
+    } else if (yearsOfService >= 5) {
+        console.log(yearsOfService)
+        basePay += (0.25 / 100) * totalSales
+        console.log(`Pay total is now ${basePay}`)
+        const yosValue = (0.25 / 100) * totalSales
+        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+
+    } else {
+        console.log('No years of service')
         console.log(`Pay total is still ${basePay}`)
         yearsOfServiceDisplayEl.innerHTML = `$0`
-    
-    } else {
-        const yosValue = yosPercent * totalSales
-        basePay += yosValue
-        
-        console.log(`Pay total is now ${basePay}`)
-        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
     }
 
     // -------------------------------------  Error check
@@ -262,7 +250,7 @@ function calculateEarnings () {
         salesIncreaseDisplayEl.innerHTML = '$0'
         console.log(`No Sales increase incentive earned. Pay total is still ${basePay}`)
     }
-    
+
 
     // -------------------------------------  Error check
     console.log('Sales increase incentive passed the check\n  ')
@@ -271,4 +259,112 @@ function calculateEarnings () {
 
     // Dispay values in html 
     resultEl.innerHTML = '$' + basePay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+ 105 changes: 105 additions & 0 deletions105  
+pay.js
+@@ -0,0 +1,105 @@
+
+
+*/
+// Take control of html elements
+let std = document.getElementById('std');
+let targetEl = document.getElementById('target-El');
+let deductionsInputValue = document.getElementById('deductions');
+
+
+//-- Variables to get target ids
+
+// Bonus
+var safety = (0.25 / 100) * totalSalesInput;
+var rookie = 1000;
+
+//-- Add event listeners
+std.addEventListener('input', () => {
+    totalSalesInput = std.valueAsNumber;
+});
+var totalSalesInput = std.valueAsNumber;
+
+targetEl.addEventListener('input', () => {
+    target = targetEl.valueAsNumber;
+});
+var target = targetEl.valueAsNumber;
+
+deductionsInputValue.addEventListener('input', () => {
+    deductionsInput = deductionsInputValue.valueAsNumber;
+});
+var deductionsInput = deductionsInputValue.valueAsNumber;
+
+
+//-- This variable will display total earnings
+var income = 0;
+
+// Update aboveTargetIncentive based on the latest totalSalesInput value
+aboveTargetIncentive = (18.4 / 100) * (totalSalesInput - target);
+
+var element = document.getElementById('overlay');
+
+function generatePay() {
+
+    element.classList.toggle("overlay-open");
+
+    let rookieEl = document.getElementById('rookie');
+    var rookieInput = rookieEl.value;
+
+    let safetyEl = document.getElementById('safety');
+    var safetyInput = safetyEl.value;
+
+    // Calculate safety value using totalSalesInput
+    var safety = (0.25 / 100) * totalSalesInput;
+
+    //--Pay plan
+    var baseSalary = (8.62 / 100) * target;
+    var belowTargetIncentive = (2.60 / 100) * target;
+    var aboveTargetIncentive = (18.4 / 100) * (totalSalesInput - target);
+
+    income += baseSalary + belowTargetIncentive;
+
+    if (totalSalesInput > target) {
+        income += aboveTargetIncentive;
+        document.getElementById('above-target').innerText = '$' + aboveTargetIncentive.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    if (safetyInput === 'YES') {
+        income += safety;
+        document.getElementById('safety-display').innerText = '$' + safety.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else {
+        document.getElementById('safety-display').innerText = '$' + "0";
+    }
+
+    if (rookieInput === "YES") {
+        income += rookie;
+    }
+
+    income -= deductionsInput;
+
+    /*
+    // Testing 
+    console.log("Safety = " + safety);
+    console.log('Rookie = ' + rookie);
+    console.log('Salary = ' + baseSalary); 
+    console.log('<Incentive = ' + belowTargetIncentive); 
+    console.log('>Incentive = ' + aboveTargetIncentive); 
+    console.log('Income = ' + income); 
+    */
+
+   /*
+    document.getElementById('result').innerText = '$' + income.toFixed(2);
+    document.getElementById('salary-display').innerText = '$' + baseSalary.toFixed(2);
+    document.getElementById('below-target').innerText = '$' + belowTargetIncentive.toFixed(2);
+    */
+
+    document.getElementById('result').innerText = '$' + income.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById('salary-display').innerText = '$' + baseSalary.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById('below-target').innerText = '$' + belowTargetIncentive.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+
+    income = 0;
+}
+
+function reloadPage() {
+    window.location.reload(); 
 }
