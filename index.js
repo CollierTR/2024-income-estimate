@@ -43,7 +43,7 @@
 
 alert(`DISCLAIMER!
 
-This web app is not maintained by Bonnie Plants, LLC. And any inaccuracies found are not the responseabbility of the company.
+This web app is not maintained by Bonnie Plants, LLC. And any inaccuracies found are not the responsibility of the company.
 
 Contact tristan.collier@bonnieplants.com to report any issues.`)
 
