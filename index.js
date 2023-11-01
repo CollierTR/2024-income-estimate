@@ -74,6 +74,28 @@ function reloadPage() {
     window.location.reload(); 
 }
 
+function returnTierIncentive(incentiveValue, incentiveDict) {
+    const counter = 0
+    const tier = 0
+    const keys = Object.keys(incentiveDict)
+    const keyLength = keys.length
+    
+    while (counter < keyLength) {
+        const val = keys[-counter-1]
+        const low_bound = keys[-counter-2]
+        if (incentiveValue >= val) {
+            tier = val
+            break;
+	
+        } else if (incentiveValue >= low_bound) {
+            tier = low_bound
+            break;
+	}
+        counter += 1
+    }
+    return [tier, incentiveDict.tier]
+}
+
 // Calculator function
 function calculateEarnings () {
 
@@ -94,8 +116,8 @@ function calculateEarnings () {
     `)
 
     // Calculate base pay
-    baseRate = .1204
-    basePay = baseRate * totalSales
+    const baseRate = .1204
+    const basePay = baseRate * totalSales
     console.log(`Base pay is ${basePay}`)
 
     // Dispay base pay result in html
@@ -114,23 +136,7 @@ function calculateEarnings () {
     }
 
     // Converts years of service to nearest incentive tier
-    function getServiceTier(yearsOfService) { 
-    	if (yearsOfService < 30) {
-    		if (yearsOfService < 20) {
-    			if (yearsOfService < 10) {
-    				if (yearsOfService < 5) {
-    					return 0 
-    					}
-    				return 5 
-    				}
-    			return 10
-    			}
-    		return 20 
-    		}
-    	return 30 
-    	}
-
-    const yosPercent = serviceIncentives.getServiceTier(yearsOfService)
+    const yosPercent = returnTierIncentive(yearsOfService, serviceIncentives)[1]
     console.log(yearsOfService)
 
     // Calculating Incentive for Those with 5+ YOS
@@ -150,11 +156,11 @@ function calculateEarnings () {
     console.log('years of service bonus passed the check\n  ')
 
     // Walmart station comp bonus
-    if (totalOfWalmartBonusesEarned > 0 & totalOfWalmartBonusesEarned <= 12) {
+    if (totalOfWalmartBonusesEarned > 0) {
+	const walmartValue = Math.min(500 * totalOfWalmartBonusesEarned, 6000)
         console.log(`${basePay} plus ${totalOfWalmartBonusesEarned} Walmart bonuses earned ($500) =`)
-        basePay += 500 * totalOfWalmartBonusesEarned
+        basePay += walmartValue
         console.log(basePay)
-        const walmartValue = 500 * totalOfWalmartBonusesEarned
         weeklyWalmartGrowthDisplayEl.innerHTML = `$${walmartValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
     } else {
         weeklyWalmartGrowthDisplayEl.innerHTML = `$0`
@@ -181,87 +187,33 @@ function calculateEarnings () {
 
 
     // Sales increase incentive
-    if (salesIncrease >= 20) {
-        console.log('20%+ sales increase detected')
-        basePay += (1.80 / 100) * totalSales
-        const functionResult = (1.80 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(20%+ increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.80% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 19) {
-        console.log('19% sales increase detected')
-        basePay += (1.70 / 100) * totalSales
-        const functionResult = (1.70 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(19% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.70% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 17) {
-        console.log('17% sales increase detected')
-        basePay += (1.60 / 100) * totalSales
-        const functionResult = (1.60 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(17% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.60% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 15) {
-        console.log('15% sales increase detected')
-        basePay += (1.50 / 100) * totalSales
-        const functionResult = (1.50 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(15% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.50% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 13) {
-        console.log('13% sales increase detected')
-        basePay += (1.40 / 100) * totalSales
-        const functionResult = (1.40 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(13% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.40% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 11) {
-        console.log('11% increase detected')
-        basePay += (1.30 / 100) * totalSales
-        const functionResult = (1.30 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(11% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.30% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 9) {
-        console.log('9% sales increase detected')
-        basePay += (1.20 / 100) * totalSales
-        const functionResult = (1.20 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(9% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.20% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 7) {
-        console.log('7% sales increase detected')
-        basePay += (1.10 / 100) * totalSales
-        const functionResult = (1.10 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(7% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.10% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 5) {
-        console.log('5% sales increase detected')
-        basePay += (1.00 / 100) * totalSales
-        const functionResult = (1.00 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(5% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 1.00% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 3) {
-        console.log('3% sales increase detected')
-        basePay += (0.20 / 100) * totalSales
-        const functionResult = (0.20 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(3% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 0.20% of total sales = $${basePay}`)
-
-    } else if (salesIncrease >= 1) {
-        console.log('1% sales increase detected')
-        basePay += (0.10 / 100) * totalSales
-        const functionResult = (0.10 / 100) * totalSales
-        salesIncreaseDisplayEl.innerHTML = `(1% increase) $${functionResult.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-        console.log(`Base pay + 0.10% of total sales = $${basePay}`)
-
-    } else {
-        salesIncreaseDisplayEl.innerHTML = '$0'
-        console.log(`No Sales increase incentive earned. Pay total is still ${basePay}`)
+    const increaseIncentives = {
+	    0: 0,
+	    1: 0.001,
+	    3: 0.002,
+	    5: 0.01,
+	    7: .011,
+	    9: .012,
+	    11: .013,
+	    13: .014,
+	    15: .015,
+	    17: .016,
+	    19: .017,
+	    20: .018
     }
+	
+    const [increaseTier, increasePercent] = returnTierIncentive(salesIncrease, increaseIncentives)
+    if (increasePercent == 0) {
+    		salesIncreaseDisplayEl.innerHTML = '$0'
+        	console.log(`No Sales increase incentive earned. Pay total is still ${basePay}`)
+	} else {
+		console.log('${increaseTier}% sales increase detected')
+
+		const increaseValue = increasePercent * totalSales
+        	basePay += increaseValue
+	        salesIncreaseDisplayEl.innerHTML = `(${increaseTier}% increase) $${increaseValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+	        console.log(`Base pay + ${increasePercent*100}% of total sales = $${basePay}`)
+	}
     
 
     // -------------------------------------  Error check
