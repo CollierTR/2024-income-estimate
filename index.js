@@ -94,7 +94,8 @@ function calculateEarnings () {
     `)
 
     // Calculate base pay
-    basePay = (12.04 / 100) * totalSales
+    baseRate = .1204
+    basePay = baseRate * totalSales
     console.log(`Base pay is ${basePay}`)
 
     // Dispay base pay result in html
@@ -103,39 +104,46 @@ function calculateEarnings () {
     // -------------------------------------  Error check
     console.log('Calculate base pay passed the check\n  ')
 
-    // years of service bonus
-    if (yearsOfService >= 30) {
-        console.log(yearsOfService)
-        basePay += (1.5 / 100) * totalSales
-        console.log(`Pay total is now ${basePay}`)
-        const yosValue = (1.5 / 100) * totalSales
-        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+    // Dictionary of Years-of-Service Incentives
+    const serviceIncentives = {
+	    0: 0,
+	    5: 0.0025,
+	    10: .006,
+	    20: .011,
+	    30: .015
+    }
 
-    } else if (yearsOfService >= 20) {
-        console.log(yearsOfService)
-        basePay += (1.1 / 100) * totalSales
-        console.log(`Pay total is now ${basePay}`)
-        const yosValue = (1.1 / 100) * totalSales
-        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+    // Converts years of service to nearest incentive tier
+    function getServiceTier(yearsOfService) { 
+    	if (yearsOfService < 30) {
+    		if (yearsOfService < 20) {
+    			if (yearsOfService < 10) {
+    				if (yearsOfService < 5) {
+    					return 0 
+    					}
+    				return 5 
+    				}
+    			return 10
+    			}
+    		return 20 
+    		}
+    	return 30 
+    	}
 
-    } else if (yearsOfService >= 10) {
-        console.log(yearsOfService)
-        basePay += (0.6 / 100) * totalSales
-        console.log(`Pay total is now ${basePay}`)
-        const yosValue = (0.6 / 100) * totalSales
-        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+    const yosPercent = serviceIncentives.getServiceTier(yearsOfService)
+    console.log(yearsOfService)
 
-    } else if (yearsOfService >= 5) {
-        console.log(yearsOfService)
-        basePay += (0.25 / 100) * totalSales
-        console.log(`Pay total is now ${basePay}`)
-        const yosValue = (0.25 / 100) * totalSales
-        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-
-    } else {
-        console.log('No years of service')
+    // Calculating Incentive for Those with 5+ YOS
+    if (yosPercent == 0) {
         console.log(`Pay total is still ${basePay}`)
         yearsOfServiceDisplayEl.innerHTML = `$0`
+    
+    } else {
+        const yosValue = yosPercent * totalSales
+        basePay += yosValue
+        
+        console.log(`Pay total is now ${basePay}`)
+        yearsOfServiceDisplayEl.innerHTML = `$${yosValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
     }
 
     // -------------------------------------  Error check
