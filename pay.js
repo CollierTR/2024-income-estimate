@@ -1,5 +1,7 @@
 
 
+
+*/
 // Take control of html elements
 let std = document.getElementById('std');
 let targetEl = document.getElementById('target-El');
